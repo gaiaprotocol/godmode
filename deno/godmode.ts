@@ -27,3 +27,25 @@ export async function isGodModeEligible(
 
   return false;
 }
+
+export async function checkHolder(
+  tokenId: number,
+  walletAddress: string,
+): Promise<boolean> {
+  const provider = new JsonRpcProvider(
+    `https://mainnet.infura.io/v3/${INFURA_API_KEY}`,
+  );
+
+  const contract: GaiaProtocolGods = new Contract(
+    THE_GODS_ADDRESS,
+    GaiaProtocolGodsABI,
+    provider,
+  );
+
+  const owner = await contract.ownerOf(tokenId);
+  if (owner === walletAddress) {
+    return true;
+  }
+
+  return false;
+}
