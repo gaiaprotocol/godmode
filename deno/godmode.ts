@@ -16,9 +16,9 @@ export async function isGodModeEligible(
 
   const contract: GaiaProtocolGods = new Contract(
     THE_GODS_ADDRESS,
-    GaiaProtocolGodsABI,
+    GaiaProtocolGodsABI.abi,
     provider,
-  );
+  ) as any;
 
   const balance = await contract.balanceOf(walletAddress);
   if (balance > 0n) {
@@ -38,9 +38,9 @@ export async function checkHolder(
 
   const contract: GaiaProtocolGods = new Contract(
     THE_GODS_ADDRESS,
-    GaiaProtocolGodsABI,
+    GaiaProtocolGodsABI.abi,
     provider,
-  );
+  ) as any;
 
   const owner = await contract.ownerOf(tokenId);
   if (owner === walletAddress) {
