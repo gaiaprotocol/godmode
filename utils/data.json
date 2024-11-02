@@ -1,17 +1,17 @@
 [{
     "_id" : 0,
     "type" : "Stone",
-    "gender" : "Man",
+    "gender" : "Woman",
     "parts" : {
         "Background" : "Background",
         "Background Accessory" : "None",
-        "Body" : "Genesis",
-        "Face" : "Genesis",
-        "Hair" : "Genesis",
+        "Body" : "Chiton",
+        "Face" : "Intellectual",
+        "Hair" : "Pontiff",
         "Front Accessory" : "None",
-        "Hand" : "Genesis"
+        "Hand" : "Elegant"
     },
-    "image" : "https://storage.googleapis.com/gaia-protocol-app/nft-images/gaia-protocol-gods/0.png",
+    "image" : "https://storage.googleapis.com/gaia-protocol-app/nft-images/gaia-protocol-gods/647ee5ca075860d81c82860c95e06af106059c9eab7425fa6e89a2cf6d824a2c.png",
     "createTime" : 1686022258163.0,
     "updateTime" : 1686037962234.0
 },

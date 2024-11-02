@@ -1,5 +1,5 @@
 import { Contract, JsonRpcProvider } from "https://esm.sh/ethers@6.7.0";
-import GaiaProtocolGodsABI from "./abis/GaiaProtocolGods.json" assert {
+import GaiaProtocolGodsABI from "./abis/GaiaProtocolGods.json" with {
   type: "json",
 };
 import { GaiaProtocolGods } from "./abis/GaiaProtocolGods.ts";

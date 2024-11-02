@@ -1,7 +1,0 @@
-the_gods_metadatas
-	token_id - int8 - pk
-  type - text - not null
-  gender - text - not null
-  parts - jsonb - not null
-	created_at - timestampz - now()
-	updated_at - timestampz - nullable

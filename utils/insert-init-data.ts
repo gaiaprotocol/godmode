@@ -1,7 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import data from "./data.json" assert {
-  type: "json",
-};
+import data from "./data.json" with { type: "json" };
 import "dotenv/config";
 
 const SUPABASE_URL = process.env.SUPABASE_URL!;
@@ -10,7 +8,7 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY!;
 async function main() {
   const client = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   for (const god of data) {
-    await client.from("the_gods_metadatas").upsert({
+    await client.from("the_god_metadatas").upsert({
       id: god._id,
       type: god.type,
       gender: god.gender,
