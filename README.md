@@ -4,4 +4,5 @@ An exclusive membership unlocking premium benefits and divine privileges. Reserv
 ```
 cd utils
 node --loader ts-node/esm ./insert-init-data.ts
+node --loader ts-node/esm ./generate-init-images.ts
 ```

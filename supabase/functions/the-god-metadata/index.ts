@@ -5,6 +5,7 @@ interface TheGodMetadata {
   token_id: number;
   type: string;
   gender: string;
+  image: string;
   parts: Record<string, string>;
 }
 
@@ -24,7 +25,7 @@ interface OpenSeaMetadata {
 
 serve(async (req) => {
   const url = new URL(req.url);
-  const tokenId = url.pathname.replace("/nft-metadata/", "");
+  const tokenId = url.pathname.replace("/the-god-metadata/", "");
 
   const metadata = await safeFetchSingle<TheGodMetadata>(
     "the_god_metadatas",
@@ -52,7 +53,8 @@ serve(async (req) => {
     name: `The God #${metadata.token_id}`,
     description:
       "A membership NFT collection of Gaia Protocol consisting of 3,333 NFTs",
-    image: "",
+    image:
+      `https://dhzxulywizygtdficytt.supabase.co/storage/v1/object/public/the_god_images/${metadata.image}`,
     external_url: "https://thegods.gaia.cc",
     attributes,
     animation_url: `https://thegods.gaia.cc/nft-viewer/${metadata.token_id}`,

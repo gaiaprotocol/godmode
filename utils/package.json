@@ -2,7 +2,9 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.46.1",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "sharp": "^0.33.5",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
