@@ -39,7 +39,7 @@ enum GodType {
 async function main() {
   const client = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   for (const metadata of data) {
-    if (metadata._id <= 337) continue;
+    if (metadata._id <= 673) continue;
 
     let parts: any;
     if (metadata.type === GodType.STONE && metadata.gender === GodGender.MAN) {
