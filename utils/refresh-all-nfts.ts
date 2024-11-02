@@ -10,18 +10,30 @@ class APIError extends Error {
 }
 
 async function main() {
-  for (let i = 0; i < 3333; i++) {
-    const response = await fetch(
-      `https://api.opensea.io/api/v2/chain/ethereum/contract/0x134590acb661da2b318bcde6b39ef5cf8208e372/nfts/${i}/refresh`,
-      { headers: { "X-API-KEY": OPENSEA_API_KEY } },
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new APIError(
-        response.status,
-        `OpenSea API error: ${errorText}`,
+  for (let i = 1739; i < 3333; i++) {
+    const _try = async () => {
+      const response = await fetch(
+        `https://api.opensea.io/api/v2/chain/ethereum/contract/0x134590acb661da2b318bcde6b39ef5cf8208e372/nfts/${i}/refresh`,
+        { method: "POST", headers: { "X-API-KEY": OPENSEA_API_KEY } },
       );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new APIError(
+          response.status,
+          `OpenSea API error: ${errorText}`,
+        );
+      }
+    };
+
+    while (true) {
+      try {
+        await _try();
+        break;
+      } catch (error) {
+        console.error(error);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
     }
 
     console.log(`Refreshed NFT ${i}`);
