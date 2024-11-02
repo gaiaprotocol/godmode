@@ -4,22 +4,22 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import data from "./data.json" with { type: "json" };
 import fireManParts from "./parts-jsons/fire-man-parts.json" with {
-  type: "json",
+  type: "json"
 };
 import fireWomanParts from "./parts-jsons/fire-woman-parts.json" with {
-  type: "json",
+  type: "json"
 };
 import stoneManParts from "./parts-jsons/stone-man-parts.json" with {
-  type: "json",
+  type: "json"
 };
 import stoneWomanParts from "./parts-jsons/stone-woman-parts.json" with {
-  type: "json",
+  type: "json"
 };
 import waterManParts from "./parts-jsons/water-man-parts.json" with {
-  type: "json",
+  type: "json"
 };
 import waterWomanParts from "./parts-jsons/water-woman-parts.json" with {
-  type: "json",
+  type: "json"
 };
 
 const SUPABASE_URL = process.env.SUPABASE_URL!;
@@ -39,6 +39,8 @@ enum GodType {
 async function main() {
   const client = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   for (const metadata of data) {
+    if (metadata._id <= 337) continue;
+
     let parts: any;
     if (metadata.type === GodType.STONE && metadata.gender === GodGender.MAN) {
       parts = stoneManParts;
