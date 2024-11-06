@@ -36,3 +36,6 @@ cache
 artifacts
 typechain*
 .openzeppelin
+
+# google
+google-cloud-server-key.json

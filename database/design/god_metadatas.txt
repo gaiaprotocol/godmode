@@ -1,4 +1,4 @@
-the_god_metadatas
+god_metadatas
 	token_id - int8 - pk
   type - text - not null
   gender - text - not null

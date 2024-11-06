@@ -4,26 +4,37 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import data from "./data.json" with { type: "json" };
 import fireManParts from "./parts-jsons/fire-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import fireWomanParts from "./parts-jsons/fire-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import stoneManParts from "./parts-jsons/stone-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import stoneWomanParts from "./parts-jsons/stone-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import waterManParts from "./parts-jsons/water-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import waterWomanParts from "./parts-jsons/water-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
+import { Storage } from "@google-cloud/storage";
 
 const SUPABASE_URL = process.env.SUPABASE_URL!;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY!;
+
+const storage = new Storage({
+  projectId: process.env.GOOGLE_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  },
+});
+
+const bucket = storage.bucket("gaiaprotocol");
 
 enum GodGender {
   MAN = "Man",
@@ -39,8 +50,6 @@ enum GodType {
 async function main() {
   const client = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   for (const metadata of data) {
-    if (metadata._id <= 3288) continue;
-
     let parts: any;
     if (metadata.type === GodType.STONE && metadata.gender === GodGender.MAN) {
       parts = stoneManParts;
@@ -121,15 +130,15 @@ async function main() {
       .toBuffer();
 
     const fileName = `${uuidv4()}.png`;
-    const filePath = `${metadata._id}/${fileName}`;
+    const filePath = `god_images/${metadata._id}/${fileName}`;
 
-    await client.storage.from("the_god_images").upload(
-      filePath,
-      buffer,
-      { cacheControl: "31536000", contentType: "image/png" },
-    );
+    const blob = bucket.file(filePath);
+    await blob.save(buffer, {
+      contentType: "image/png",
+      metadata: { cacheControl: "public, max-age=31536000, immutable" },
+    });
 
-    await client.from("the_god_metadatas").update({
+    await client.from("god_metadatas").update({
       image: filePath,
     }).eq("token_id", metadata._id);
 

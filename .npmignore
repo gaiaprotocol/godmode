@@ -2,3 +2,6 @@ src/
 test/
 test-src/
 old/
+
+# google
+google-cloud-server-key.json

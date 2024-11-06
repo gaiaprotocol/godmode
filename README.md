@@ -6,3 +6,7 @@ cd utils
 node --loader ts-node/esm ./insert-init-data.ts
 node --loader ts-node/esm ./generate-init-images.ts
 ```
+
+```
+gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" gs://gaiaprotocol/god_images/**
+```
