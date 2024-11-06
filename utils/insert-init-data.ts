@@ -8,7 +8,7 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY!;
 async function main() {
   const client = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   for (const god of data) {
-    await client.from("the_god_metadatas").upsert({
+    await client.from("god_metadatas").upsert({
       id: god._id,
       type: god.type,
       gender: god.gender,

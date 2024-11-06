@@ -130,9 +130,9 @@ async function main() {
       .toBuffer();
 
     const fileName = `${uuidv4()}.png`;
-    const filePath = `god_images/${metadata._id}/${fileName}`;
+    const filePath = `${metadata._id}/${fileName}`;
 
-    const blob = bucket.file(filePath);
+    const blob = bucket.file("god_images/" + filePath);
     await blob.save(buffer, {
       contentType: "image/png",
       metadata: { cacheControl: "public, max-age=31536000, immutable" },

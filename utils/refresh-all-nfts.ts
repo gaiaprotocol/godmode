@@ -10,7 +10,7 @@ class APIError extends Error {
 }
 
 async function main() {
-  for (let i = 1739; i < 3333; i++) {
+  for (let i = 0; i < 3333; i++) {
     const _try = async () => {
       const response = await fetch(
         `https://api.opensea.io/api/v2/chain/ethereum/contract/0x134590acb661da2b318bcde6b39ef5cf8208e372/nfts/${i}/refresh`,
