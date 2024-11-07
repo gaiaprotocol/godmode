@@ -1,0 +1,89 @@
+import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/main/api.ts";
+import { safeFetch } from "https://raw.githubusercontent.com/yjgaia/supabase-module/main/deno/supabase.ts";
+import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/main/deno/auth.ts";
+
+const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
+
+class APIError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+    this.name = "APIError";
+  }
+}
+
+interface GodMetadata {
+  token_id: number;
+  type: string;
+  gender: string;
+  image: string;
+  parts: Record<string, string>;
+}
+
+interface Attribute {
+  trait_type: string;
+  value: string;
+}
+
+interface OpenSeaMetadata {
+  name: string;
+  description: string;
+  image: string;
+  external_url: string;
+  animation_url?: string;
+  attributes: Attribute[];
+}
+
+serve(async (req) => {
+  const walletAddress = extractWalletFromRequest(req);
+  const { next } = await req.json();
+
+  const response = await fetch(
+    `https://api.opensea.io/api/v2/chain/ethereum/account/${walletAddress}/nfts?collection=gaia-protocol-gods&limit=200${
+      next ? `&next=${next}` : ""
+    }`,
+    { headers: { "X-API-KEY": OPENSEA_API_KEY } },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new APIError(
+      response.status,
+      `OpenSea API error: ${errorText}`,
+    );
+  }
+
+  const data = await response.json();
+  const tokenIds = data.nfts.map((nft: any) => parseInt(nft.identifier));
+
+  const metadataSet = await safeFetch<GodMetadata[]>(
+    "god_metadatas",
+    (b) => b.select("*").in("token_id", tokenIds),
+  );
+
+  for (const nft of data.nfts) {
+    const metadata = metadataSet.find((m) =>
+      m.token_id === parseInt(nft.identifier)
+    );
+
+    if (metadata) {
+      const attributes: Attribute[] = [{
+        trait_type: "Type",
+        value: metadata.type,
+      }, {
+        trait_type: "Gender",
+        value: metadata.gender,
+      }];
+
+      for (const [partName, value] of Object.entries(metadata.parts)) {
+        attributes.push({
+          trait_type: partName,
+          value,
+        });
+      }
+
+      nft.attributes = attributes;
+    }
+  }
+
+  return data;
+});

@@ -1,7 +1,7 @@
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/main/api.ts";
 import { safeFetchSingle } from "https://raw.githubusercontent.com/yjgaia/supabase-module/main/deno/supabase.ts";
 
-interface TheGodMetadata {
+interface GodMetadata {
   token_id: number;
   type: string;
   gender: string;
@@ -27,7 +27,7 @@ serve(async (req) => {
   const url = new URL(req.url);
   const tokenId = url.pathname.replace("/god-metadata/", "");
 
-  const metadata = await safeFetchSingle<TheGodMetadata>(
+  const metadata = await safeFetchSingle<GodMetadata>(
     "god_metadatas",
     (b) => b.select("*").eq("token_id", tokenId),
   );
