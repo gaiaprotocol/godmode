@@ -1,3 +1,4 @@
+import { getGodsBalance } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/main/deno/godmode.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/main/api.ts";
 import { safeFetch } from "https://raw.githubusercontent.com/yjgaia/supabase-module/main/deno/supabase.ts";
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/main/deno/auth.ts";
@@ -37,12 +38,15 @@ serve(async (req) => {
   const walletAddress = extractWalletFromRequest(req);
   const { next } = await req.json();
 
-  const response = await fetch(
-    `https://api.opensea.io/api/v2/chain/ethereum/account/${walletAddress}/nfts?collection=gaia-protocol-gods&limit=200${
-      next ? `&next=${next}` : ""
-    }`,
-    { headers: { "X-API-KEY": OPENSEA_API_KEY } },
-  );
+  const [response, balance] = await Promise.all([
+    fetch(
+      `https://api.opensea.io/api/v2/chain/ethereum/account/${walletAddress}/nfts?collection=gaia-protocol-gods&limit=200${
+        next ? `&next=${next}` : ""
+      }`,
+      { headers: { "X-API-KEY": OPENSEA_API_KEY } },
+    ),
+    getGodsBalance(walletAddress),
+  ]);
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -85,5 +89,6 @@ serve(async (req) => {
     }
   }
 
+  data.balance = Number(balance);
   return data;
 });
