@@ -50,7 +50,7 @@ serve(async (req) => {
   }
 
   const openSeaMetadata: OpenSeaMetadata = {
-    name: `The God #${metadata.token_id}`,
+    name: `God #${metadata.token_id}`,
     description:
       "A membership NFT collection of Gaia Protocol consisting of 3,333 NFTs",
     image:
