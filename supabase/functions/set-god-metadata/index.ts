@@ -4,7 +4,7 @@ import {
   safeFetchSingle,
   safeStore,
 } from "https://raw.githubusercontent.com/yjgaia/supabase-module/main/deno/supabase.ts";
-import { ObjectUtils } from "https://raw.githubusercontent.com/yjgaia/ts-module/main/src/mod.ts";
+import ObjectUtils from "https://raw.githubusercontent.com/yjgaia/ts-module/main/src/utils/ObjectUtils.ts";
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
 import fireManParts from "./parts-jsons/fire-man-parts.json" with {
