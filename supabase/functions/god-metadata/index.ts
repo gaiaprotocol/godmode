@@ -57,7 +57,7 @@ serve(async (req) => {
       `https://storage.googleapis.com/gaiaprotocol/god_images/${metadata.image}`,
     external_url: "https://thegods.gaia.cc",
     attributes,
-    animation_url: `https://thegods.gaia.cc/nft-viewer/${metadata.token_id}`,
+    animation_url: `https://thegods.gaia.cc/god-viewer/${metadata.token_id}`,
   };
 
   return openSeaMetadata;
