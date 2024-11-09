@@ -170,35 +170,43 @@ serve(async (req) => {
   }
   images.sort((a, b) => a.order - b.order);
 
-  let baseImage: MagickImage | null = null;
+  const imageBuffers: Uint8Array[] = [];
 
   const BASE_URL = "https://storage.googleapis.com/gaiaprotocol/god_parts";
 
   for (const image of images) {
-    const imageUrl = `${BASE_URL}/${metadata.type.toLowerCase()}/${image.path}`;
-    const response = await fetch(imageUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to load image from ${imageUrl}`);
-    }
-    const imageBuffer = new Uint8Array(await response.arrayBuffer());
-
-    await ImageMagick.read(imageBuffer, async (img) => {
-      if (baseImage == null) {
-        baseImage = img.clone();
-      } else {
-        await baseImage!.composite(img, 0, 0, CompositeOperator.Over);
+    if (image !== undefined) {
+      const imageUrl =
+        `${BASE_URL}/${metadata.type.toLowerCase()}/${image.path}`;
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to load image from ${imageUrl}`);
       }
-    });
+      const imageBuffer = new Uint8Array(await response.arrayBuffer());
+      imageBuffers.push(imageBuffer);
+    }
   }
 
-  if (baseImage == null) {
+  if (imageBuffers.length === 0) {
     throw new Error("No images to compose");
   }
 
   let buffer: Uint8Array | null = null;
-  baseImage.write((data) => {
-    buffer = data;
-  }, "png");
+
+  ImageMagick.read(imageBuffers[0], (baseImage) => {
+    for (let i = 1; i < imageBuffers.length; i++) {
+      ImageMagick.read(imageBuffers[i], (overlay) => {
+        baseImage.composite(overlay, 0, 0, CompositeOperator.Over);
+        overlay.dispose();
+      });
+    }
+
+    baseImage.write((data) => {
+      buffer = data;
+    }, "png");
+
+    baseImage.dispose();
+  });
 
   if (buffer == null) {
     throw new Error("Failed to generate image buffer");
@@ -226,16 +234,13 @@ serve(async (req) => {
 
   const _try = async () => {
     const response = await fetch(
-      `https://api.opensea.io/api/v2/chain/ethereum/contract/0x134590acb661da2b318bcde6b39ef5cf8208e372/nfts/${i}/refresh`,
+      `https://api.opensea.io/api/v2/chain/ethereum/contract/0x134590acb661da2b318bcde6b39ef5cf8208e372/nfts/${tokenId}/refresh`,
       { method: "POST", headers: { "X-API-KEY": OPENSEA_API_KEY } },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new APIError(
-        response.status,
-        `OpenSea API error: ${errorText}`,
-      );
+      throw new APIError(response.status, `OpenSea API error: ${errorText}`);
     }
   };
 
