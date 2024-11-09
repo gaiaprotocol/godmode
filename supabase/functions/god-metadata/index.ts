@@ -5,8 +5,8 @@ interface GodMetadata {
   token_id: number;
   type: string;
   gender: string;
-  image: string;
   parts: Record<string, string>;
+  image: string;
 }
 
 interface Attribute {
