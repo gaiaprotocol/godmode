@@ -1,4 +1,3 @@
-import sharp from "https://esm.sh/sharp@0.33.5";
 import { checkHolder } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/main/deno/godmode.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/main/api.ts";
 import {
@@ -9,23 +8,37 @@ import { ObjectUtils } from "https://raw.githubusercontent.com/yjgaia/ts-module/
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
 import fireManParts from "./parts-jsons/fire-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import fireWomanParts from "./parts-jsons/fire-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import stoneManParts from "./parts-jsons/stone-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import stoneWomanParts from "./parts-jsons/stone-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import waterManParts from "./parts-jsons/water-man-parts.json" with {
-  type: "json"
+  type: "json",
 };
 import waterWomanParts from "./parts-jsons/water-woman-parts.json" with {
-  type: "json"
+  type: "json",
 };
+
+import {
+  CompositeOperator,
+  ImageMagick,
+  initializeImageMagick,
+  MagickImage,
+} from "npm:@imagemagick/magick-wasm@0.0.31";
+
+const wasmUrl = new URL(
+  "magick.wasm",
+  import.meta.resolve("npm:@imagemagick/magick-wasm@0.0.31"),
+);
+const wasmBytes = await Deno.readFile(wasmUrl);
+await initializeImageMagick(wasmBytes);
 
 interface GodMetadata {
   token_id: number;
@@ -148,26 +161,39 @@ serve(async (req) => {
   }
   images.sort((a, b) => a.order - b.order);
 
-  const parameters: any[] = [];
+  let baseImage: MagickImage | null = null;
+
+  const BASE_URL = "https://storage.googleapis.com/gaiaprotocol/god_parts";
+
   for (const image of images) {
-    if (image !== undefined) {
-      parameters.push({
-        input: `parts-images/${metadata.type.toLowerCase()}/${image.path}`,
-      });
+    const imageUrl = `${BASE_URL}/${metadata.type.toLowerCase()}/${image.path}`;
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to load image from ${imageUrl}`);
     }
+    const imageBuffer = new Uint8Array(await response.arrayBuffer());
+
+    await ImageMagick.read(imageBuffer, async (img) => {
+      if (baseImage == null) {
+        baseImage = img.clone();
+      } else {
+        await baseImage!.composite(img, 0, 0, CompositeOperator.Over);
+      }
+    });
   }
 
-  const buffer = await sharp({
-    create: {
-      width: 1024,
-      height: 1024,
-      channels: 4,
-      background: { r: 255, g: 167, b: 173, alpha: 0 },
-    },
-  })
-    .composite(parameters)
-    .png()
-    .toBuffer();
+  if (baseImage == null) {
+    throw new Error("No images to compose");
+  }
+
+  let buffer: Uint8Array | null = null;
+  baseImage.write((data) => {
+    buffer = data;
+  }, "png");
+
+  if (buffer == null) {
+    throw new Error("Failed to generate image buffer");
+  }
 
   const fileName = `${crypto.randomUUID()}.png`;
   const filePath = `${metadata._id}/${fileName}`;
