@@ -49,12 +49,14 @@ serve(async (req) => {
     });
   }
 
+  const imageUrl =
+    `https://storage.googleapis.com/gaiaprotocol/god_images/${metadata.image}`;
+
   const openSeaMetadata: OpenSeaMetadata = {
     name: `God #${metadata.token_id}`,
     description:
-      "A membership NFT collection of Gaia Protocol consisting of 3,333 NFTs",
-    image:
-      `https://storage.googleapis.com/gaiaprotocol/god_images/${metadata.image}`,
+      `A membership NFT collection of Gaia Protocol consisting of 3,333 NFTs\n\nDownload Image: ${imageUrl}`,
+    image: imageUrl,
     external_url: "https://thegods.gaia.cc",
     attributes,
     animation_url: `https://thegods.gaia.cc/god-viewer/${metadata.token_id}`,
