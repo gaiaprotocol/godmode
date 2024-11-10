@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "public"."gaia_names" (
   "wallet_address" "text" DEFAULT ("auth"."jwt"() ->> 'wallet_address'::"text") NOT NULL,
-  "name" "text" NOT NULL,
+  "name" "text" NOT NULL UNIQUE,
   "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
   "updated_at" timestamp with time zone
 );

@@ -1,5 +1,5 @@
 gaia_names
 	wallet_address - text, ("auth"."jwt"() ->> 'wallet_address'::"text") - pk
-  name - text - not null
+  name - text - not null - unique
 	created_at - timestampz - now()
 	updated_at - timestampz - nullable
