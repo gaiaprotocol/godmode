@@ -8,4 +8,5 @@ supabase functions deploy set-gaia-name
 supabase functions deploy set-god-metadata
 supabase functions deploy god-metadata --no-verify-jwt
 supabase functions deploy get-user-gods
+supabase functions deploy check-god-mode
 ```
