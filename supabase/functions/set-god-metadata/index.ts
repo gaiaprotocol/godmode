@@ -57,6 +57,11 @@ serve(async (req) => {
     throw new Error("Invalid request");
   }
 
+  const errors = PartSelector.validateMetadata(metadata);
+  if (errors.length > 0) {
+    throw new Error("Invalid parts: " + errors.join(", "));
+  }
+
   const isHolder = await checkHolder(tokenId, walletAddress);
   if (!isHolder) throw new Error("Not the holder");
 
