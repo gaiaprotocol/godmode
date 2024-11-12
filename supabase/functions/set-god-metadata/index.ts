@@ -7,6 +7,7 @@ import {
 import ObjectUtils from "https://raw.githubusercontent.com/yjgaia/ts-module/main/src/utils/ObjectUtils.ts";
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
+import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/main/deno/mod.ts";
 
 const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
 
