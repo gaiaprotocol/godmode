@@ -13,6 +13,8 @@ ALTER TABLE "public"."god_metadatas" OWNER TO "postgres";
 ALTER TABLE ONLY "public"."god_metadatas"
   ADD CONSTRAINT "god_metadatas_pkey" PRIMARY KEY ("token_id");
 
+CREATE UNIQUE INDEX unique_god_metadata ON god_metadatas (type, gender, parts);
+
 ALTER TABLE "public"."god_metadatas" ENABLE ROW LEVEL SECURITY;
 
 GRANT ALL ON TABLE "public"."god_metadatas" TO "anon";

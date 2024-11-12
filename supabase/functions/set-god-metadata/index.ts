@@ -1,4 +1,5 @@
 import { checkHolder } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
+import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/refs/heads/main/deno/mod.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
 import {
   safeFetchSingle,
@@ -7,7 +8,6 @@ import {
 import ObjectUtils from "https://raw.githubusercontent.com/yjgaia/ts-module/refs/heads/main/src/utils/ObjectUtils.ts";
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
-import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/refs/heads/main/deno/mod.ts";
 
 const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
 
@@ -82,6 +82,21 @@ serve(async (req) => {
     throw new Error("No change");
   }
 
+  // check duplicate
+  const duplicate = await safeFetchSingle<GodMetadata>(
+    "god_metadatas",
+    (b) =>
+      b.select("token_id").eq("type", metadata.type).eq(
+        "gender",
+        metadata.gender,
+      ).eq(
+        "parts",
+        JSON.stringify(metadata.parts),
+      ),
+  );
+
+  if (duplicate) throw new Error("Duplicate");
+
   const fileName = `${crypto.randomUUID()}.png`;
   const filePath = `${tokenId}/${fileName}`;
 
@@ -91,16 +106,21 @@ serve(async (req) => {
     metadata: { cacheControl: "public, max-age=31536000, immutable" },
   });
 
-  await safeStore(
-    "god_metadatas",
-    (b) =>
-      b.update({
-        type: metadata.type,
-        gender: metadata.gender,
-        parts: metadata.parts,
-        image: filePath,
-      }).eq("token_id", tokenId),
-  );
+  try {
+    await safeStore(
+      "god_metadatas",
+      (b) =>
+        b.update({
+          type: metadata.type,
+          gender: metadata.gender,
+          parts: metadata.parts,
+          image: filePath,
+        }).eq("token_id", tokenId),
+    );
+  } catch (error) {
+    await blob.delete();
+    throw error;
+  }
 
   const refreshOpenSea = async () => {
     const response = await fetch(
