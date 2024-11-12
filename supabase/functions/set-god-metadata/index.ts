@@ -80,7 +80,7 @@ serve(async (req) => {
   const filePath = `${tokenId}/${fileName}`;
 
   const blob = bucket.file("god_images/" + filePath);
-  await blob.save(file.stream(), {
+  await blob.save(file.stream() as any, {
     contentType: "image/png",
     metadata: { cacheControl: "public, max-age=31536000, immutable" },
   });
