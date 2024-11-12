@@ -1,5 +1,5 @@
-import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/main/api.ts";
-import { safeFetchSingle } from "https://raw.githubusercontent.com/yjgaia/supabase-module/main/deno/supabase.ts";
+import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import { safeFetchSingle } from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
 
 interface GodMetadata {
   token_id: number;
