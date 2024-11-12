@@ -57,14 +57,6 @@ serve(async (req) => {
     throw new Error("Invalid request");
   }
 
-  const errors = PartSelector.validateMetadata(metadata);
-  if (errors.length > 0) {
-    throw new Error("Invalid parts: " + errors.join(", "));
-  }
-
-  const isHolder = await checkHolder(tokenId, walletAddress);
-  if (!isHolder) throw new Error("Not the holder");
-
   if (!metadata.type || !TYPES.includes(metadata.type)) {
     throw new Error("Invalid type");
   }
@@ -72,6 +64,14 @@ serve(async (req) => {
   if (!metadata.gender || !GENDERS.includes(metadata.gender)) {
     throw new Error("Invalid gender");
   }
+
+  const errors = PartSelector.validateMetadata(metadata);
+  if (errors.length > 0) {
+    throw new Error("Invalid parts: " + errors.join(", "));
+  }
+
+  const isHolder = await checkHolder(tokenId, walletAddress);
+  if (!isHolder) throw new Error("Not the holder");
 
   const originalMetadata = await safeFetchSingle<GodMetadata>(
     "god_metadatas",
@@ -81,21 +81,6 @@ serve(async (req) => {
   if (ObjectUtils.isEqual(originalMetadata, metadata)) {
     throw new Error("No change");
   }
-
-  // check duplicate
-  const duplicate = await safeFetchSingle<GodMetadata>(
-    "god_metadatas",
-    (b) =>
-      b.select("token_id").eq("type", metadata.type).eq(
-        "gender",
-        metadata.gender,
-      ).eq(
-        "parts",
-        JSON.stringify(metadata.parts),
-      ),
-  );
-
-  if (duplicate) throw new Error("Duplicate");
 
   const fileName = `${crypto.randomUUID()}.png`;
   const filePath = `${tokenId}/${fileName}`;
