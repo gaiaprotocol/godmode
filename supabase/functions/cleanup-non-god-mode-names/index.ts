@@ -17,8 +17,6 @@ serve(async () => {
     (wa) => balances[wa] === 0n,
   );
 
-  console.log(balances, nonGodModeWalletAddresses);
-
   await safeStore(
     "gaia_names",
     (b) => b.delete().in("wallet_address", nonGodModeWalletAddresses),

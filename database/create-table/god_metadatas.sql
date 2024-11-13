@@ -22,3 +22,5 @@ GRANT ALL ON TABLE "public"."god_metadatas" TO "authenticated";
 GRANT ALL ON TABLE "public"."god_metadatas" TO "service_role";
 
 CREATE POLICY "Allow read access for all users" ON "public"."god_metadatas" FOR SELECT USING (true);
+
+CREATE TRIGGER "set_updated_at" BEFORE UPDATE ON "public"."god_metadatas" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();

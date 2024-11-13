@@ -17,3 +17,5 @@ GRANT ALL ON TABLE "public"."gaia_names" TO "authenticated";
 GRANT ALL ON TABLE "public"."gaia_names" TO "service_role";
 
 CREATE POLICY "Allow read access for all users" ON "public"."gaia_names" FOR SELECT USING (true);
+
+CREATE TRIGGER "set_updated_at" BEFORE UPDATE ON "public"."gaia_names" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
