@@ -26,7 +26,7 @@ export async function getGodBalance(walletAddress: string): Promise<bigint> {
   return await contract.balanceOf(walletAddress);
 }
 
-export async function getGodBalanceList(
+export async function getGodBalances(
   walletAddresses: string[],
 ): Promise<Record<string, bigint>> {
   const provider = new JsonRpcProvider(

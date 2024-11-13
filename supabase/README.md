@@ -10,4 +10,5 @@ supabase functions deploy check-god-metadata-duplicated
 supabase functions deploy god-metadata --no-verify-jwt
 supabase functions deploy get-user-gods
 supabase functions deploy check-god-mode
+supabase functions deploy cleanup-non-god-mode-names
 ```
