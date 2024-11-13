@@ -1,10 +1,10 @@
 import { Contract, JsonRpcProvider } from "https://esm.sh/ethers@6.7.0";
 import GaiaProtocolGodsABI from "./abis/GaiaProtocolGods.json" with {
-  type: "json"
+  type: "json",
 };
 import { GaiaProtocolGods } from "./abis/GaiaProtocolGods.ts";
 import ParsingNFTDataABI from "./abis/ParsingNFTData.json" with {
-  type: "json"
+  type: "json",
 };
 import { ParsingNFTData } from "./abis/ParsingNFTData.ts";
 
@@ -39,7 +39,7 @@ export async function getGodBalances(
     provider,
   ) as any;
 
-  const result = await contract.getERC721BalanceList_OneHolder(
+  const result = await contract.getERC721BalanceList_OneToken(
     THE_GODS_ADDRESS,
     walletAddresses,
   );
