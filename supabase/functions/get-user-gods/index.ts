@@ -1,4 +1,4 @@
-import { getGodsBalance } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
+import { getGodBalance } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
 import { safeFetch } from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
 import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
@@ -45,7 +45,7 @@ serve(async (req) => {
       }`,
       { headers: { "X-API-KEY": OPENSEA_API_KEY } },
     ),
-    getGodsBalance(walletAddress),
+    getGodBalance(walletAddress),
   ]);
 
   if (!response.ok) {

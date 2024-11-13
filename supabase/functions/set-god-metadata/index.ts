@@ -1,4 +1,4 @@
-import { checkHolder } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
+import { checkGodHolder } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
 import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/refs/heads/main/deno/mod.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
 import {
@@ -70,7 +70,7 @@ serve(async (req) => {
     throw new Error("Invalid parts: " + errors.join(", "));
   }
 
-  const isHolder = await checkHolder(tokenId, walletAddress);
+  const isHolder = await checkGodHolder(tokenId, walletAddress);
   if (!isHolder) throw new Error("Not the holder");
 
   const originalMetadata = await safeFetchSingle<GodMetadata>(
