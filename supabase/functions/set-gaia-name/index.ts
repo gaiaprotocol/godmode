@@ -15,11 +15,9 @@ serve(async (req) => {
   const isEligible = await isGodModeEligible(walletAddress);
   if (!isEligible) throw new Error("Not eligible");
 
-  const originalName = await safeFetchSingle<
-    { wallet_address: string; name: string }
-  >(
+  const originalName = await safeFetchSingle(
     "gaia_names",
-    (b) => b.select("*").eq("wallet_address", walletAddress),
+    (b) => b.select("name").eq("name", name),
   );
 
   if (originalName) throw new Error("Already registered");
