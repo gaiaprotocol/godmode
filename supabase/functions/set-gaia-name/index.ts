@@ -24,7 +24,7 @@ serve(async (req) => {
 
   await safeStore(
     "gaia_names",
-    (b) => b.insert({ wallet_address: walletAddress, name }),
+    (b) => b.upsert({ wallet_address: walletAddress, name }),
   );
 
   return "OK";
