@@ -4,10 +4,10 @@ import {
   safeFetchSingle,
   safeStore,
 } from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
-import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
+import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 
 serve(async (req) => {
-  const walletAddress = extractWalletFromRequest(req);
+  const walletAddress = extractWalletAddressFromRequest(req);
 
   const { name } = await req.json();
   if (!name) throw new Error("Name is required");

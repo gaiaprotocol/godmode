@@ -1,9 +1,16 @@
-import { isGodModeEligible } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
 import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import {
+  safeStore,
+} from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
 import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 
 serve(async (req) => {
   const walletAddress = extractWalletAddressFromRequest(req);
-  const isEligible = await isGodModeEligible(walletAddress);
-  return `${isEligible}`;
+
+  await safeStore(
+    "gaia_names",
+    (b) => b.delete().eq("wallet_address", walletAddress),
+  );
+
+  return "OK";
 });

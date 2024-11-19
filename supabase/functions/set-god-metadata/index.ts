@@ -6,7 +6,7 @@ import {
   safeStore,
 } from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
 import ObjectUtils from "https://raw.githubusercontent.com/yjgaia/ts-module/refs/heads/main/src/utils/ObjectUtils.ts";
-import { extractWalletFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
+import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
 
 const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
@@ -40,7 +40,7 @@ const TYPES = ["Stone", "Fire", "Water"];
 const GENDERS = ["Man", "Woman"];
 
 serve(async (req) => {
-  const walletAddress = extractWalletFromRequest(req);
+  const walletAddress = extractWalletAddressFromRequest(req);
   const formData = await req.formData();
   const file = formData.get("file");
 
