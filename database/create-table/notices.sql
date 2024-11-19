@@ -28,4 +28,6 @@ GRANT ALL ON TABLE "public"."notices" TO "anon";
 GRANT ALL ON TABLE "public"."notices" TO "authenticated";
 GRANT ALL ON TABLE "public"."notices" TO "service_role";
 
+CREATE INDEX ON "public"."notices" ("slug");
+
 CREATE POLICY "Allow read access for all users" ON "public"."notices" FOR SELECT USING (true);
