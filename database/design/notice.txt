@@ -1,0 +1,9 @@
+notices
+	id - int8 - auto_increment - pk
+  slug - text - not null
+  category - text - not null
+  title - text - not null
+  subtitle - text - not null
+  content - text - not null
+  cover_image_url - text - not null
+  created_at - timestampz - now()
