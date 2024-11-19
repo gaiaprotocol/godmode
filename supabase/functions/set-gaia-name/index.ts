@@ -6,11 +6,22 @@ import {
 } from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
 import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 
+const blacklist = [
+  "gaia",
+  "gaiaprotocol",
+  "gaia_protocol",
+];
+
 serve(async (req) => {
   const walletAddress = extractWalletAddressFromRequest(req);
 
-  const { name } = await req.json();
+  let { name } = await req.json();
   if (!name) throw new Error("Name is required");
+
+  name = name.toLowerCase();
+  if (blacklist.includes(name)) {
+    throw new Error(`Name "${name}" is not allowed`);
+  }
 
   const isEligible = await isGodModeEligible(walletAddress);
   if (!isEligible) throw new Error("Not eligible");
