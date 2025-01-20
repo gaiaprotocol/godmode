@@ -22,7 +22,7 @@ function isValidName(name: string): boolean {
 }
 
 serve(async (req) => {
-  const walletAddress = extractWalletAddressFromRequest(req);
+  const walletAddress = await extractWalletAddressFromRequest(req);
 
   let { name } = await req.json();
   if (!name) throw new Error("Name is required");

@@ -3,7 +3,7 @@ import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs
 import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 
 serve(async (req) => {
-  const walletAddress = extractWalletAddressFromRequest(req);
+  const walletAddress = await extractWalletAddressFromRequest(req);
   const isEligible = await isGodModeEligible(walletAddress);
   return `${isEligible}`;
 });

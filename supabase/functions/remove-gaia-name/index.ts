@@ -5,7 +5,7 @@ import {
 import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
 
 serve(async (req) => {
-  const walletAddress = extractWalletAddressFromRequest(req);
+  const walletAddress = await extractWalletAddressFromRequest(req);
 
   await safeStore(
     "gaia_names",

@@ -40,7 +40,7 @@ const TYPES = ["Stone", "Fire", "Water"];
 const GENDERS = ["Man", "Woman"];
 
 serve(async (req) => {
-  const walletAddress = extractWalletAddressFromRequest(req);
+  const walletAddress = await extractWalletAddressFromRequest(req);
   const formData = await req.formData();
   const file = formData.get("file");
 
