@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "public"."god_metadatas" (
-  "token_id" bigint NOT NULL,
+  "token_id" smallint NOT NULL,
   "type" "text" NOT NULL,
   "gender" "text" NOT NULL,
   "parts" "jsonb" NOT NULL,

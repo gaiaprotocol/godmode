@@ -1,5 +1,5 @@
 god_metadatas
-	token_id - int8 - pk
+	token_id - int2 - pk
   type - text - not null
   gender - text - not null
   parts - jsonb - not null
