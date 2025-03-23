@@ -53,7 +53,7 @@ serve(async (req) => {
     formData.get("metadata") as string,
   ) as GodMetadata;
 
-  if (!file || !tokenId || !metadata) {
+  if (!file || isNaN(tokenId) || !metadata) {
     throw new Error("Invalid request");
   }
 
