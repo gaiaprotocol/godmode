@@ -1,0 +1,4 @@
+gods_stats
+  time - timestampz - pk
+  floor_price - numeric - not null
+  num_owners - int4 - not null
