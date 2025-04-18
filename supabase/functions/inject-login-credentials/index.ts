@@ -1,6 +1,6 @@
 import { create } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.31.0";
-import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import { serve } from "https://raw.githubusercontent.com/commonmodule/deno-module/refs/heads/main/api.ts";
 
 const GAIA_PROTOCOL_SUPABASE_URL = Deno.env.get("GAIA_PROTOCOL_SUPABASE_URL")!;
 const GAIA_PROTOCOL_SUPABASE_KEY = Deno.env.get("GAIA_PROTOCOL_SUPABASE_KEY")!;

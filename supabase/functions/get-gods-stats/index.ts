@@ -1,4 +1,4 @@
-import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import { serve } from "https://raw.githubusercontent.com/commonmodule/deno-module/refs/heads/main/api.ts";
 
 const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
 

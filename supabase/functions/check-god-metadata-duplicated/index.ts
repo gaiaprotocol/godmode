@@ -1,8 +1,8 @@
 import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/refs/heads/main/deno/mod.ts";
-import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import { serve } from "https://raw.githubusercontent.com/commonmodule/deno-module/refs/heads/main/api.ts";
 import {
   safeFetchSingle,
-} from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
+} from "https://raw.githubusercontent.com/commonmodule/supabase-module/refs/heads/main/deno/supabase.ts";
 
 interface GodMetadata {
   token_id: number;

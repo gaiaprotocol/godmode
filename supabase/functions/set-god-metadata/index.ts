@@ -1,12 +1,12 @@
 import { checkGodHolder } from "https://raw.githubusercontent.com/gaiaprotocol/godmode/refs/heads/main/deno/godmode.ts";
 import { PartSelector } from "https://raw.githubusercontent.com/gaiaprotocol/thegods-module/refs/heads/main/deno/mod.ts";
-import { serve } from "https://raw.githubusercontent.com/yjgaia/deno-module/refs/heads/main/api.ts";
+import { serve } from "https://raw.githubusercontent.com/commonmodule/deno-module/refs/heads/main/api.ts";
 import {
   safeFetchSingle,
   safeStore,
-} from "https://raw.githubusercontent.com/yjgaia/supabase-module/refs/heads/main/deno/supabase.ts";
-import ObjectUtils from "https://raw.githubusercontent.com/yjgaia/ts-module/refs/heads/main/src/utils/ObjectUtils.ts";
-import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/yjgaia/wallet-login-module/refs/heads/main/deno/auth.ts";
+} from "https://raw.githubusercontent.com/commonmodule/supabase-module/refs/heads/main/deno/supabase.ts";
+import ObjectUtils from "https://raw.githubusercontent.com/commonmodule/ts-module/refs/heads/main/src/utils/ObjectUtils.ts";
+import { extractWalletAddressFromRequest } from "https://raw.githubusercontent.com/commonmodule/wallet-login-module/refs/heads/main/deno/auth.ts";
 import { Storage } from "npm:@google-cloud/storage";
 
 const OPENSEA_API_KEY = Deno.env.get("OPENSEA_API_KEY")!;
